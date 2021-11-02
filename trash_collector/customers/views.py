@@ -32,7 +32,7 @@ def create(request):
         name_from_form = request.POST.get('name')
         address_from_form = request.POST.get('address')
         zip_from_form = request.POST.get('zip_code')
-        weekly_from_form = request.POST.get('weekly_pickup')
+        weekly_from_form = request.POST['pick_up_day_drop_down']
         new_customer = Customer(name=name_from_form, user=logged_in_user, address=address_from_form, zip_code=zip_from_form, weekly_pickup=weekly_from_form)
         new_customer.save()
         return HttpResponseRedirect(reverse('customers:index'))
@@ -79,11 +79,11 @@ def edit_profile(request):
         name_from_form = request.POST.get('name')
         address_from_form = request.POST.get('address')
         zip_from_form = request.POST.get('zip_code')
-        weekly_pickup_from_form = request.POST.get('weekly')
+        weekly_from_form = request.POST['pick_up_day_drop_down']
         logged_in_customer.name = name_from_form
         logged_in_customer.address = address_from_form
         logged_in_customer.zip_code = zip_from_form
-        logged_in_customer.weekly_pickup = weekly_pickup_from_form
+        logged_in_customer.weekly_pickup = weekly_from_form
         logged_in_customer.save()
         return HttpResponseRedirect(reverse('customers:index'))
     else:
