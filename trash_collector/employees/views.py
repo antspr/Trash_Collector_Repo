@@ -67,3 +67,21 @@ def edit_profile(request):
             'logged_in_employee': logged_in_employee
         }
         return render(request, 'employees/edit_profile.html', context)
+
+@login_required
+def edit_pickup(request):
+    logged_in_user = request.user
+    logged_in_employee = Employee.objects.get(user=logged_in_user)
+    
+    today = date.today()
+    if request.method == "POST":
+        if customer.date_of_last_pickup == today:
+            customer.date_of_last_pickup = today
+            customer.save()
+        return HttpResponseRedirect(reverse('employees:index'))
+    else:
+        context = {
+            'logged_in_employee': logged_in_employee,
+            'customer': customer
+        }
+        return HttpResponseRedirect(reverse('employees:index'))
