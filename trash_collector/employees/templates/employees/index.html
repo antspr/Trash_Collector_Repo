@@ -5,18 +5,24 @@
 {% block header %} Employee Portal {% endblock %}
 
 {% block content %}
-  {% if user.is_authenticated %}
-    Hello Employee {{ logged_in_employee.name }}!
-    <br>
-    Customers in route today: 
-    <br>
+{% if user.is_authenticated %}
+  Hello Employee {{ logged_in_employee.name }}!
+  <br>
+  Customers in route today: 
+  <br>
     {% for customer in all_customers %}
       {% if customer.zip_code == logged_in_employee.zip_code and customer.date_of_last_pickup != today %}
-        {% now "Y-m-d" as today %}
-        {% if today > customer.suspend_end|date:"Y-m-d" or today < customer.suspend_start|date:"Y-m-d" %}
-          {% if customer.weekly_pickup != day_name %}
-            Pick up {{customer.name}}'s trash at {{customer.address}} <br>
-            {% endif %}
+      {% now "Y-m-d" as today %}
+        {% if today > customer.suspend_end|date:"Y-m-d" or today < customer.suspend_start|date:"Y-m-d" %} 
+          {% if customer.weekly_pickup != day_name %} 
+            Pick up {{customer.name}}'s trash at {{customer.address}}
+            <form action="{% url 'employees:confirm_pickup' customer.id %}">
+              <input type = "submit" value="Accept">
+            </form> 
+            <br> # when button confirms its {{customer.time_of_last}} pickup would = today
+          {% else %}
+            No Pickups Today
+          {% endif %}
         {% endif %}
       {% endif %}
     {% endfor %}

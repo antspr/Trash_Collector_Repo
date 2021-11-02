@@ -68,5 +68,12 @@ def edit_profile(request):
         }
         return render(request, 'employees/edit_profile.html', context)
 
-def edit_last_pickup(request):
-    pass
+def confirm_pickup(request, customer_id):
+    Customers = apps.get_model('customers.Customer')
+    customer = Customers.objects.get(id=customer_id)
+    today = date.today()
+    customer.date_of_last_pickup = today
+    customer.save()
+    return HttpResponseRedirect(reverse('employees:index'))
+
+
