@@ -15,17 +15,23 @@ from .models import Employee
 
 def index(request):
     # This line will get the Customer model from the other app, it can now be used to query the db for Customers
-    Customer = apps.get_model('customers.Customer')
+    Customers = apps.get_model('customers.Customer')
+    all_customers = Customers.objects.all()
+    # The following line will get the logged-in user (if there is one) within any view function
     logged_in_user = request.user
     try:
-        # This line will return the customer record of the logged-in user if one exists
+        # This line will return the employee record of the logged-in user if one exists
         logged_in_employee = Employee.objects.get(user=logged_in_user)
 
         today = date.today()
+        day_name = today.strftime("%A")
+        day_name = day_name.upper()
 
         context = {
             'logged_in_employee': logged_in_employee,
-            'today': today
+            'today': today,
+            'all_customers': all_customers,
+            'day_name': day_name,
         }
         return render(request, 'employees/index.html', context)
     except ObjectDoesNotExist:
@@ -37,12 +43,12 @@ def create(request):
     logged_in_user = request.user
     if request.method == "POST":
         name_from_form = request.POST.get('name')
-        zip_from_form = request.POST.get('zip')
+        zip_from_form = request.POST.get('zip_code')
         new_employee = Employee(name=name_from_form, user=logged_in_user, zip_code=zip_from_form)
         new_employee.save()
-        return HttpResponseRedirect(reverse('employee:index'))
+        return HttpResponseRedirect(reverse('employees:index'))
     else:
-        return render(request, 'employee/create.html')
+        return render(request, 'employees/create.html')
 
 
 @login_required
@@ -55,9 +61,9 @@ def edit_profile(request):
         logged_in_employee.name = name_from_form
         logged_in_employee.zip_code = zip_from_form
         logged_in_employee.save()
-        return HttpResponseRedirect(reverse('employee:index'))
+        return HttpResponseRedirect(reverse('employees:index'))
     else:
         context = {
             'logged_in_employee': logged_in_employee
         }
-        return render(request, 'employee/edit_profile.html', context)
+        return render(request, 'employees/edit_profile.html', context)
