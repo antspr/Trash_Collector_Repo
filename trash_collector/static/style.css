@@ -1,0 +1,31 @@
+body {
+    background-color: burlywood;
+
+}
+
+
+.container {
+    background-color: brown;
+}
+
+.RouteWindow {
+    background-color: burlywood;
+    border:10px, cornsilk;
+    text-decoration-color:darkolivegreen;
+    border-radius: 30px;
+
+}
+
+.DayView {
+    background-color: darkolivegreen;
+    border: 10px, black;
+
+}
+
+.box1 {
+height: 50%;
+}
+.box2 {
+height: 50%;
+    
+}

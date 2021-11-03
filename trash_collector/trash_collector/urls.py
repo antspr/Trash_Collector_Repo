@@ -29,4 +29,5 @@ urlpatterns = [
     path('employees/', include('employees.urls')),
     # 'home' redirects a user to the appropriate index based on their auth group. Investigate trach_collector/views.py for more info
     path('', views.group_redirect, name='home')
+    
 ]

@@ -32,7 +32,7 @@ DATABASES = {
         'ENGINE': 'mysql.connector.django',
         'NAME': 'trash_collector',
         'USER': 'root',
-        'PASSWORD': 'army4280',
+        'PASSWORD': 'd3WK0DEckMP',
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'OPTIONS': {
@@ -126,7 +126,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",

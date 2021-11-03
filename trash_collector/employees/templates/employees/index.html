@@ -6,8 +6,11 @@
 
 {% block content %}
 {% if user.is_authenticated %}
+  
+  {%block content1 %}
   Hello Employee {{ logged_in_employee.name }}!
   <br>
+    <div class=" h-50 p-3 mb-2 bg-light text-dark">
     <table class='table'>
       <h4>Customers in route today:</h4>
       <tr>
@@ -36,6 +39,10 @@
         {% endif %}
       {% endfor %}
       </table>
+    </div>
+    {% endblock %}
+    {% block content2 %}
+    <div class="h-50 p-3 mb-2 bg-light text-dark">
     Pickup Schedule:
     <form action="{% url 'employees:view_pickups' %}" method="post">
       {% csrf_token %}
@@ -68,9 +75,12 @@
         {% endfor %}
       {% endif %}
     </table>
-  {% else %}
-    <p>You are at the employee index, but you are not logged in.</p>
-    <a href="{% url 'login' %}">Log In</a>
-    <a href="{% url 'accounts:register' %}">Sign Up</a>
-  {% endif %}
+  </div>
+  {% endblock %}
+</div>
+{% else %}
+  <p>You are at the employee index, but you are not logged in.</p>
+  <a href="{% url 'login' %}">Log In</a>
+  <a href="{% url 'accounts:register' %}">Sign Up</a>
+{% endif %}
 {% endblock %}
