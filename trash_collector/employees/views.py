@@ -68,12 +68,39 @@ def edit_profile(request):
         }
         return render(request, 'employees/edit_profile.html', context)
 
+
+@login_required
 def confirm_pickup(request, customer_id):
     Customers = apps.get_model('customers.Customer')
     customer = Customers.objects.get(id=customer_id)
     today = date.today()
     customer.date_of_last_pickup = today
+    customer.balance -= 20
     customer.save()
     return HttpResponseRedirect(reverse('employees:index'))
 
 
+def view_pickups(request):
+    Customers = apps.get_model('customers.Customer')
+    all_customers = Customers.objects.all()
+    logged_in_user = request.user
+    logged_in_employee = Employee.objects.get(user=logged_in_user)
+    today = date.today()
+    day_name = today.strftime("%A")
+    day_name = day_name.upper()
+    customers_that_share_pickup_day = []
+    if request.method == "POST":
+        employee_selection = request.POST['pickup_day_drop_down']
+        for customer in all_customers:
+            if customer.weekly_pickup == employee_selection:
+                customers_that_share_pickup_day.append(customer)
+                context = {
+                    'logged_in_employee': logged_in_employee,
+                    'all_customers': all_customers,
+                    'customers_that_share_pickup_day': customers_that_share_pickup_day,
+                    'today': today,
+                    'day_name': day_name
+                }
+                return render(request, 'employees/index.html', context)
+    else:
+        return HttpResponseRedirect(reverse('employees:index'))        
