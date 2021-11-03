@@ -90,23 +90,21 @@ def view_pickups(request):
     day_name = day_name.upper()
     customers_that_share_pickup_day = []
     employee_selection = request.POST['pickup_day_drop_down']
+    context = {
+        'logged_in_employee': logged_in_employee,
+        'all_customers': all_customers,
+        'customers_that_share_pickup_day': customers_that_share_pickup_day,
+        'today': today,
+        'day_name': day_name
+    }
     try:
         for customer in all_customers:
             if customer.weekly_pickup == employee_selection:
                 customers_that_share_pickup_day.append(customer)
-                context = {
-                'logged_in_employee': logged_in_employee,
-                'all_customers': all_customers,
-                'customers_that_share_pickup_day': customers_that_share_pickup_day,
-                'today': today,
-                'day_name': day_name
-                }
-                if customers_that_share_pickup_day != None:
-                    return render(request, 'employees/index.html', context)
-                else:
-                    return HttpResponseRedirect(reverse('employees:index'))
-            else:
-                return HttpResponseRedirect(reverse('employees:index'))
+        if customers_that_share_pickup_day != None:
+            return render(request, 'employees/index.html', context)
+        else:
+            return HttpResponseRedirect(reverse('employees:index'))
     except(ValueError):
         return HttpResponseRedirect(reverse('employees:index'))
        
