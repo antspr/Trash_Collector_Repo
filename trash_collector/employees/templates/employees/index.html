@@ -57,14 +57,16 @@
         <th scope="col">Pickup Day</th>
         <th scope="col">Last Pickup</th>
       </tr>
-      {% for customer in customers_that_share_pickup_day %}
-      <tr>
-        <td>{{customer.name}}</td>
-        <td>{{customer.address}}</td>
-        <td>{{customer.weekly_pickup}}</td>
-        <td>{{customer.date_of_last_pickup}}</td>
-      </tr>
-      {% endfor %}
+      {% if customers_that_share_pickup_day != None %}
+        {% for customer in customers_that_share_pickup_day %}
+        <tr>
+          <td>{{customer.name}}</td>
+          <td>{{customer.address}}</td>
+          <td>{{customer.weekly_pickup}}</td>
+          <td>{{customer.date_of_last_pickup}}</td>
+        </tr>
+        {% endfor %}
+      {% endif %}
     </table>
   {% else %}
     <p>You are at the employee index, but you are not logged in.</p>
