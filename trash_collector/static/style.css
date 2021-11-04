@@ -6,26 +6,33 @@ body {
 
 .container {
     background-color: green;
+    max-width: fit-content;
+    display: block;
+    border-radius: 10%;
 }
 
 .RouteWindow {
     display: inline-block;
     background-color:yellow;
+    max-width: fit-content;
+    max-height: fit-content;
     margin: 20px;
     padding:15px;
     border: 10px, black;
     border-radius: 25%;
-    float: left
+    
 }
 
 .DayView {
     display: inline-block;
+    max-width: fit-content;
+    max-height: fit-content;
     background-color:yellow;
     margin: 20px;
     padding:15px;
     border: 10px, black;
     border-radius: 25%;
-    float: right
+    
 
 }
 
