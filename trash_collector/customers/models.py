@@ -27,6 +27,7 @@ class Customer(models.Model):
     suspend_end = models.DateField(null=True, blank=True)
     date_of_last_pickup = models.DateField(null=True, blank=True)
     balance = models.IntegerField(default=0)
+    #map = models.CharField(max_length=200)
 
     def __str__(self):
         return self.name

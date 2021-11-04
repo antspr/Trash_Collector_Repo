@@ -10,7 +10,7 @@
   {%block content1 %}
   Hello Employee {{ logged_in_employee.name }}!
   <br>
-    <div class=" h-50 p-3 mb-2 bg-light text-dark">
+    <div class="RouteWindow">
     <table class='table'>
       <h4>Customers in route today:</h4>
       <tr>
@@ -18,6 +18,7 @@
         <th scope="col">Address</th>
         <th scope="col">Pickup Day</th> 
         <th scope="col">Last Pickup</th>
+        <th scope="col">Map</th>
         <th scope="col">Verification</th>
      </tr>
       {% for customer in all_customers %}
@@ -31,9 +32,11 @@
                 <td>{{customer.address}}</td>
                 <td>{{customer.weekly_pickup}}</td>
                 <td>{{customer.date_of_last_pickup}}</td>
+                <td>{{customer.map}}</td>
                 <td><input type="submit" value="Accept"></td>
               </tr>
               </form>
+
             {% endif %}
           {% endif %}
         {% endif %}
@@ -42,7 +45,7 @@
     </div>
     {% endblock %}
     {% block content2 %}
-    <div class="h-50 p-3 mb-2 bg-light text-dark">
+    <div class="DayView">
     Pickup Schedule:
     <form action="{% url 'employees:view_pickups' %}" method="post">
       {% csrf_token %}
@@ -57,7 +60,7 @@
       </select>
       <input type = "submit" value="View">
     </form>
-    <table class = 'table'>
+    <table class = 'TodaysPickups'>
       <tr>
         <th scope="col">Name</th>
         <th scope="col">Address</th>

@@ -31,6 +31,7 @@ def create(request):
     if request.method == "POST":
         name_from_form = request.POST.get('name')
         address_from_form = request.POST.get('address')
+        #map = https://embed.waze.com/iframe?zoom=12&lat=45.6906304&lon=-120.810983
         zip_from_form = request.POST.get('zip_code')
         weekly_from_form = request.POST['pick_up_day_drop_down']
         new_customer = Customer(name=name_from_form, user=logged_in_user, address=address_from_form, zip_code=zip_from_form, weekly_pickup=weekly_from_form)
