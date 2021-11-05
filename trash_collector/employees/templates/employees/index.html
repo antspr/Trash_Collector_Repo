@@ -5,11 +5,9 @@
 {% block header %} Employee Portal {% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-  
-  {%block content1 %}
+{% if user.is_authenticated %} 
   Hello Employee {{ logged_in_employee.name }}!
-  <br>
+    <br>
     <div class="RouteWindow">
     <table class='table'>
       <h4>Customers in route today:</h4>
@@ -18,36 +16,26 @@
         <th scope="col">Address</th>
         <th scope="col">Pickup Day</th> 
         <th scope="col">Last Pickup</th>
-        <th scope="col">Map</th>
         <th scope="col">Verification</th>
-     </tr>
-      {% for customer in all_customers %}
-        {% if customer.zip_code == logged_in_employee.zip_code and customer.date_of_last_pickup != today %}
-        {% now "Y-m-d" as today %}
-          {% if today > customer.suspend_end|date:"Y-m-d" or today < customer.suspend_start|date:"Y-m-d" %} 
-            {% if customer.weekly_pickup != day_name %}
-              <form action="{% url 'employees:confirm_pickup' customer.id %}">
-              <tr>
-                <td>{{customer.name}}</td>
-                <td>{{customer.address}}</td>
-                <td>{{customer.weekly_pickup}}</td>
-                <td>{{customer.date_of_last_pickup}}</td>
-                <td>{{customer.map}}</td>
-                <td><input type="submit" value="Accept"></td>
-              </tr>
-              </form>
-
-            {% endif %}
-          {% endif %}
-        {% endif %}
-      {% endfor %}
+      </tr>
+      {% if scheduled_customers != None %}
+        {% for customer in scheduled_customers %}
+          <form action="{% url 'employees:confirm_pickup' customer.id %}">
+            <tr>
+              <td>{{customer.name}}</td>
+              <td>{{customer.address}}</td>
+              <td>{{customer.weekly_pickup}}</td>
+              <td>{{customer.date_of_last_pickup}}</td>
+              <td><input type="submit" value="Accept"></td>
+            </tr>
+          </form>
+        {% endfor %}
+      {% endif %}
       </table>
     </div>
-    {% endblock %}
-    {% block content2 %}
     <div class="DayView">
     Pickup Schedule:
-    <form action="{% url 'employees:view_pickups' %}" method="post">
+    <form action="{% url 'employees:index' %}" method="post">
       {% csrf_token %}
       <select name="pickup_day_drop_down" id="pickup_day_drop_down">
         <option value="MONDAY">MONDAY</option>
@@ -79,7 +67,6 @@
       {% endif %}
     </table>
   </div>
-  {% endblock %}
 </div>
 {% else %}
   <p>You are at the employee index, but you are not logged in.</p>

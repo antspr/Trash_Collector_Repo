@@ -17,22 +17,36 @@ def index(request):
     # This line will get the Customer model from the other app, it can now be used to query the db for Customers
     Customers = apps.get_model('customers.Customer')
     all_customers = Customers.objects.all()
-    # The following line will get the logged-in user (if there is one) within any view function
+    scheduled_customers = []
+    customers_that_share_pickup_day = []
     logged_in_user = request.user
+    logged_in_employee = Employee.objects.get(user=logged_in_user)
+    today = date.today()
+    day_name = today.strftime("%A")
+    day_name = day_name.upper()
     try:
-        # This line will return the employee record of the logged-in user if one exists
-        logged_in_employee = Employee.objects.get(user=logged_in_user)
-
-        today = date.today()
-        day_name = today.strftime("%A")
-        day_name = day_name.upper()
-
-        context = {
+        for customer in all_customers:
+            if customer.date_of_last_pickup != today:
+                if customer.weekly_pickup == day_name:
+                    if customer.suspend_start == None and customer.suspend_end == None:
+                        scheduled_customers.append(customer)
+                    elif today > customer.suspend_start and today < customer.suspend_end:
+                        scheduled_customers.append(customer)
+        context = {   
             'logged_in_employee': logged_in_employee,
             'today': today,
             'all_customers': all_customers,
             'day_name': day_name,
-        }
+            'scheduled_customers': scheduled_customers,
+            'customers_that_share_pickup_day': customers_that_share_pickup_day,
+                    }
+        if request.method == 'POST':
+            employee_selection = request.POST['pickup_day_drop_down']
+            for customer in all_customers:
+                if customer.weekly_pickup == employee_selection:
+                    customers_that_share_pickup_day.append(customer)
+            if customers_that_share_pickup_day != None:
+                context.update({'customers_that_share_pickup_day': customers_that_share_pickup_day})
         return render(request, 'employees/index.html', context)
     except ObjectDoesNotExist:
         return HttpResponseRedirect(reverse('employees:create'))
@@ -79,32 +93,4 @@ def confirm_pickup(request, customer_id):
     customer.save()
     return HttpResponseRedirect(reverse('employees:index'))
 
-
-def view_pickups(request):
-    Customers = apps.get_model('customers.Customer')
-    all_customers = Customers.objects.all()
-    logged_in_user = request.user
-    logged_in_employee = Employee.objects.get(user=logged_in_user)
-    today = date.today()
-    day_name = today.strftime("%A")
-    day_name = day_name.upper()
-    customers_that_share_pickup_day = []
-    employee_selection = request.POST['pickup_day_drop_down']
-    context = {
-        'logged_in_employee': logged_in_employee,
-        'all_customers': all_customers,
-        'customers_that_share_pickup_day': customers_that_share_pickup_day,
-        'today': today,
-        'day_name': day_name
-    }
-    try:
-        for customer in all_customers:
-            if customer.weekly_pickup == employee_selection:
-                customers_that_share_pickup_day.append(customer)
-        if customers_that_share_pickup_day != None:
-            return render(request, 'employees/index.html', context)
-        else:
-            return HttpResponseRedirect(reverse('employees:index'))
-    except(ValueError):
-        return HttpResponseRedirect(reverse('employees:index'))
        
