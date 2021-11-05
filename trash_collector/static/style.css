@@ -1,10 +1,8 @@
 body {
-    background-color:yellow;
     background-image: url("wm.JPG");
     background-repeat: repeat;
-
+    background-color: blue;
 }
-
 
 .container {
     background-color: green;
@@ -13,7 +11,6 @@ body {
     margin: 25px;
     padding:20px;
     border-radius: 10%;
-    float: center;
     overflow: none;
 }
 
@@ -25,8 +22,7 @@ body {
     margin: 20px;
     padding:15px;
     border: 10px, black;
-    border-radius: 15%;
-    
+    border-radius: 15%;   
 }
 
 .DayView {
@@ -38,20 +34,10 @@ body {
     padding:15px;
     border: 10px, black;
     border-radius: 15%;
-    
-
 }
 
 .TodaysPickups {
     display: inline;
     background-color: green;
     text-decoration: yellow, 20px;
-}
-
-.box1 {
-height: 50%;
-}
-.box2 {
-height: 50%;
-    
 }
