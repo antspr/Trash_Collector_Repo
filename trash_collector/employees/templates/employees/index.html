@@ -6,11 +6,11 @@
 
 {% block content %}
 {% if user.is_authenticated %} 
-  Hello Employee {{ logged_in_employee.name }}!
+  <h4>Hello Employee {{ logged_in_employee.name }}!</h4>
     <br>
+    <h3>Customers in route today:</h3>
     <div class="RouteWindow">
-    <table class='table'>
-      <h4>Customers in route today:</h4>
+    <table class="table">
       <tr>
         <th scope="col">Name</th>
         <th scope="col">Address</th>
@@ -31,42 +31,42 @@
           </form>
         {% endfor %}
       {% endif %}
+    </table>
+    </div>
+    <h3>Pickup Schedule:</h3>
+    <div class="DayView">
+      <form action="{% url 'employees:index' %}" method="post">
+        {% csrf_token %}
+        <select name="pickup_day_drop_down" id="pickup_day_drop_down">
+          <option value="MONDAY">MONDAY</option>
+          <option value="TUESDAY">TUESDAY</option>
+          <option value="WEDNESDAY">WEDNESDAY</option>
+          <option value="THURSDAY">THURSDAY</option>
+          <option value="FRIDAY">FRIDAY</option>
+          <option value="SATURDAY">SATURDAY</option>
+          <option value="SUNDAY">SUNDAY</option>
+        </select>
+        <input type="submit" value="View">
+      </form>
+      <table class='table'>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Address</th>
+          <th scope="col">Pickup Day</th>
+          <th scope="col">Last Pickup</th>
+        </tr>
+        {% if customers_that_share_pickup_day != None %}
+          {% for customer in customers_that_share_pickup_day %}
+          <tr>
+            <td>{{customer.name}}</td>
+            <td>{{customer.address}}</td>
+            <td>{{customer.weekly_pickup}}</td>
+            <td>{{customer.date_of_last_pickup}}</td>
+          </tr>
+          {% endfor %}
+        {% endif %}
       </table>
     </div>
-    <div class="DayView">
-    Pickup Schedule:
-    <form action="{% url 'employees:index' %}" method="post">
-      {% csrf_token %}
-      <select name="pickup_day_drop_down" id="pickup_day_drop_down">
-        <option value="MONDAY">MONDAY</option>
-        <option value="TUESDAY">TUESDAY</option>
-        <option value="WEDNESDAY">WEDNESDAY</option>
-        <option value="THURSDAY">THURSDAY</option>
-        <option value="FRIDAY">FRIDAY</option>
-        <option value="SATURDAY">SATURDAY</option>
-        <option value="SUNDAY">SUNDAY</option>
-      </select>
-      <input type="submit" value="View">
-    </form>
-    <table class='table'>
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Address</th>
-        <th scope="col">Pickup Day</th>
-        <th scope="col">Last Pickup</th>
-      </tr>
-      {% if customers_that_share_pickup_day != None %}
-        {% for customer in customers_that_share_pickup_day %}
-        <tr>
-          <td>{{customer.name}}</td>
-          <td>{{customer.address}}</td>
-          <td>{{customer.weekly_pickup}}</td>
-          <td>{{customer.date_of_last_pickup}}</td>
-        </tr>
-        {% endfor %}
-      {% endif %}
-    </table>
-  </div>
 </div>
 {% else %}
   <p>You are at the employee index, but you are not logged in.</p>

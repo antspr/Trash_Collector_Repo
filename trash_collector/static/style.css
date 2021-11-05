@@ -6,8 +6,6 @@ body {
 
 .container {
     background-color: green;
-    max-width: fit-content;
-    display: inline-block;
     margin: 25px;
     padding:20px;
     border-radius: 10%;
@@ -17,12 +15,10 @@ body {
 .RouteWindow {
     display: inline-block;
     background-color:yellow;
-    max-width: fit-content;
-    max-height: fit-content;
     margin: 20px;
     padding:15px;
     border: 10px, black;
-    border-radius: 15%;   
+    border-radius: 15%;      
 }
 
 .DayView {
