@@ -20,11 +20,11 @@ def index(request):
     scheduled_customers = []
     customers_that_share_pickup_day = []
     logged_in_user = request.user
-    logged_in_employee = Employee.objects.get(user=logged_in_user)
     today = date.today()
     day_name = today.strftime("%A")
     day_name = day_name.upper()
     try:
+        logged_in_employee = Employee.objects.get(user=logged_in_user)
         for customer in all_customers:
             if customer.date_of_last_pickup != today:
                 if customer.weekly_pickup == day_name:
