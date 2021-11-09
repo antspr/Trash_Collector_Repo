@@ -27,13 +27,13 @@ It is your task to build out the employee-side of this application to allow empl
 (20 points): As a registered employee, I want my index view to be a list of today’s customers who meet ALL the following criteria:
 
 -	Customers in my zip code
--	
+
 -	Pickup day is today’s day of week OR One-time pickup date that falls on today
--	
+
 -	Non-suspended accounts
--	
+
 -	Trash has not yet been picked up today
--	
+
 (10 points): As a registered employee, I want a button/link displayed with each pickup in my daily list that I can click to “confirm” a pickup.
 
 (5 points): As a registered employee, I want all confirmed pickups to have a charge of $20 applied to the customer.
